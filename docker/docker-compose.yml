@@ -51,7 +51,7 @@ services:
       zookeeper:
         condition: service_healthy
   debezium:
-    image: debezium/connect:latest
+    image: debezium/connect:2.6
     ports:
       - '8183:8083'
     environment:
