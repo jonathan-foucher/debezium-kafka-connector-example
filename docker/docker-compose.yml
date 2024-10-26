@@ -82,7 +82,7 @@ services:
   init-kafka:
     image: confluentinc/cp-kafka:latest
     volumes:
-      - ./avro:/opt/docker/avro
+      - ./connectors:/opt/docker/connectors
     networks:
       - kafka
     depends_on:
@@ -94,6 +94,18 @@ services:
       cub kafka-ready -b kafka:9092 1 60
       echo -e 'Creating kafka topics'
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic debezium_example_my_database_movie --replication-factor 1 --partitions 6
+      
+      cub connect-ready debezium 8083 60
+      if [[ \\
+        `curl --write-out '%{http_code}' --silent --output /dev/null \\
+          --request GET http://debezium:8083/connectors/movie-connector \\
+          --header 'Accept: application/json'` \\
+        == 404 ]]; then
+        curl --request POST http://debezium:8083/connectors \\
+        --header Accept:application/json \\
+        --header Content-Type:application/json \\
+        --data-binary @/opt/docker/connectors/movie-connector.json
+      fi
       "
   akhq:
     image: tchiotludo/akhq:latest
