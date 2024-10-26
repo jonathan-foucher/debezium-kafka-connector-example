@@ -11,6 +11,7 @@
     "database.user": "postgres",
     "database.password": "postgres",
     "table.include.list": "my_database.movie",
+    "tombstones.on.delete": "false",
     "transforms": "RerouteMovie,RerouteHeartbeat",
     "transforms.RerouteMovie.key.enforce.uniqueness": "false",
     "transforms.RerouteMovie.type": "io.debezium.transforms.ByLogicalTableRouter",
