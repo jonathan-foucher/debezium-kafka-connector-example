@@ -93,6 +93,7 @@ services:
       "
       cub kafka-ready -b kafka:9092 1 60
       echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic debezium_example_my_database_heartbeat --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic debezium_example_my_database_movie --replication-factor 1 --partitions 6
       
       cub connect-ready debezium 8083 60
