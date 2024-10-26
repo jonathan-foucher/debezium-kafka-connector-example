@@ -1,0 +1,29 @@
+{
+  "name": "movie-connector",
+  "config" : {
+    "topic.prefix": "debezium_example",
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "publication.autocreate.mode": "filtered",
+    "slot.name": "debezium_my_database",
+    "tasks.max": 1,
+    "plugin.name": "pgoutput",
+    "database.hostname": "postgres-db",
+    "database.port": 5432,
+    "database.dbname": "my_database",
+    "database.user": "postgres",
+    "database.password": "postgres",
+    "table.include.list": "my_database.movie",
+    "tombstone.on.delete": "false",
+    "transforms": "RerouteJob",
+    "transforms.RerouteJob.key.enforce.uniqueness": "false",
+    "transforms.RerouteJob.type": "io.debezium.transforms.ByLogicalTableRouter",
+    "transforms.RerouteJob.topic.regex": "debezium_example.my_database.movie",
+    "transforms.RerouteJob.topic.replacement": "debezium_example_my_database_movie",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "heartbeat.interval.ms": 60000,
+    "heartbeat.action.query": "update my_database.debezium_heartbeat set heartbeat_time = now();"
+  }
+}
