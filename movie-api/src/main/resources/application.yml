@@ -10,7 +10,7 @@ spring:
     db: my_database
     host: localhost
     port: 5432
-    default-schema: my_schema
+    default-schema: my_database
     url: "jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.db}?currentSchema=${spring.datasource.default-schema}"
     username: postgres
     password: postgres
